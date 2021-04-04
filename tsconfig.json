@@ -13,12 +13,11 @@
     "rootDir": "src",
     "baseUrl": "src",
     "paths": {
-      "@/*": ["*"]
+      "@/*": [
+        "*"
+      ]
     },
     "allowJs": true,
-    "skipDefaultLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "noEmit": true,
     "resolveJsonModule": true
   },
   "include": [
