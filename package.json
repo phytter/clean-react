@@ -2,9 +2,9 @@
   "name": "clean-react",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "./src/main/index.tsx",
   "scripts": {
-    "start": "webpack-dev-server --open",
+    "start": "webpack serve --open",
     "test": "jest --passWithNoTests --no-cache --runInBand",
     "test:watch": "npm test -- --watch",
     "test:staged": "npm test -- --findRelatedTests",
