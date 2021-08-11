@@ -6,7 +6,7 @@ import axios from 'axios'
 jest.mock('axios')
 
 type SutTypes = {
-  sut: AxiosHttpClient,
+  sut: AxiosHttpClient
   mockedAxios: jest.Mocked<typeof axios>
 }
 
@@ -25,11 +25,11 @@ describe('AxiosHttpClient', () => {
     const { sut, mockedAxios } = makeSut()
     await sut.post(request)
     expect(mockedAxios.post).toHaveBeenCalledWith(request.url, request.body)
-  });
+  })
 
-  test('Should return the correct status code and body', async () => {
+  test('Should return the correct statusCode and body', () => {
     const { sut, mockedAxios } = makeSut()
     const promise = sut.post(mockPostRequest())
     expect(promise).toEqual(mockedAxios.post.mock.results[0].value)
-  });
+  })
 })
