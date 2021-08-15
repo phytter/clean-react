@@ -12,6 +12,7 @@ const Input: React.FC<Props> = (props: Props) => {
   }
 
   const handleChange = (event: React.FocusEvent<HTMLInputElement>): void => {
+    event.persist()
     setState(prev => ({
       ...prev,
       [event.target.name]: event.target.value
