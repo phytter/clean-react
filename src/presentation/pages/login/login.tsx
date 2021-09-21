@@ -14,10 +14,10 @@ import { Authentication, SaveAccessToken } from '@/domain/usecases'
 type Props = {
   validation: Validation
   authentication: Authentication
-  saveAccessTokenMock: SaveAccessToken
+  saveAccessToken: SaveAccessToken
 }
 
-const Login: React.FC<Props> = ({ validation, authentication, saveAccessTokenMock }: Props) => {
+const Login: React.FC<Props> = ({ validation, authentication, saveAccessToken }: Props) => {
   const history = useHistory()
   const [state, setState] = useState({
     isLoading: false,
@@ -48,7 +48,7 @@ const Login: React.FC<Props> = ({ validation, authentication, saveAccessTokenMoc
         email: state.email,
         password: state.password
       })
-      await saveAccessTokenMock.save(account.accessToken)
+      await saveAccessToken.save(account.accessToken)
       history.replace('/')
     } catch (error) {
       setState({

@@ -28,7 +28,7 @@ const makeSut = (params?: SutParams): SutTypes => {
       <Login
         validation={validationStub}
         authentication={authenticationSpy}
-        saveAccessTokenMock={saveAccessTokenMock}
+        saveAccessToken={saveAccessTokenMock}
       />
     </Router>
   )
