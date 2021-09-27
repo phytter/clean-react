@@ -12,11 +12,6 @@ type SutParams = {
   validationError: string
 }
 
-const testElementExist = (sut: RenderResult, fieldName: string): void => {
-  const element = sut.getByTestId(fieldName)
-  expect(element).toBeTruthy()
-}
-
 const simulateValidSubmit = async (sut: RenderResult, name = faker.name.findName(), email = faker.internet.email(), password = faker.internet.password()): Promise<void> => {
   Helper.populateField(sut, 'name', name)
   Helper.populateField(sut, 'email', email)
@@ -119,6 +114,6 @@ describe('Signup Component', () => {
   test('Should show spinner on submit', async () => {
     const { sut } = makeSut()
     await simulateValidSubmit(sut)
-    testElementExist(sut, 'spinner')
+    Helper.testElementExist(sut, 'spinner')
   })
 })
