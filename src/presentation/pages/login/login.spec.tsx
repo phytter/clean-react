@@ -125,7 +125,8 @@ describe('Login Component', () => {
   test('Should not call Authentication if form is invalid', async () => {
     const validationError = faker.random.words()
     const { sut, authenticationSpy } = makeSut({ validationError })
-    await Helper.populateField(sut, 'email')
+    // await Helper.populateField(sut, 'email')
+    await simulateValidSubmit(sut)
     expect(authenticationSpy.callsCount).toBe(0)
   })
 
