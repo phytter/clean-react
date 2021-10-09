@@ -112,8 +112,7 @@ const Signup: React.FC<Props> = ({ validation, addAccount, saveAccessToken }: Pr
 
           <SubmitButton text='Cadastrar'/>
 
-          <span className={Styles.link}>Voltar Para Login</span>
-          <Link data-testid="login-link" replace to="/login" className={Styles.link}>Criar conta</Link>
+          <Link data-testid="login-link" replace to="/login" className={Styles.link}>Voltar Para Login</Link>
           <FormStatus />
         </form>
       </Context.Provider>
