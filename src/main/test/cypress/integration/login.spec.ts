@@ -59,12 +59,12 @@ describe('Login', () => {
     FormHelper.testUrl('/login')
   })
 
-  it('Should present save accessToken if valid credentials are provided', () => {
+  it('Should present save account if valid credentials are provided', () => {
     Http.mockOk()
     simulateValidSubmit()
     cy.getByTestId('error-wrap').should('not.exist')
     FormHelper.testUrl('/')
-    FormHelper.testLocalStorageItem('accessToken')
+    FormHelper.testLocalStorageItem('account')
   })
 
   it('Should present UnexpectedError if invalid data is returned', () => {
