@@ -3,14 +3,16 @@ import faker from 'faker'
 import { Router } from 'react-router-dom'
 import { createMemoryHistory } from 'history'
 import Signup from './signup'
+import { ApiContext } from '@/presentation/contexts'
 import { RenderResult, render, cleanup, fireEvent, waitFor } from '@testing-library/react'
-import { Helper, ValidationStub, AddAccountSpy, UpdateCurrentAccountMock } from '@/presentation/test'
+import { Helper, ValidationStub, AddAccountSpy } from '@/presentation/test'
 import { EmailInUseError } from '@/domain/errors'
+import { AccountModel } from '@/domain/models'
 
 type SutTypes = {
   sut: RenderResult
   addAccountSpy: AddAccountSpy
-  updateCurrentAccount: UpdateCurrentAccountMock
+  setCurrentAccountMock: (account: AccountModel) => void
 }
 
 type SutParams = {
@@ -31,21 +33,22 @@ const history = createMemoryHistory({ initialEntries: ['/signup'] })
 const makeSut = (params?: SutParams): SutTypes => {
   const validationStub = new ValidationStub()
   const addAccountSpy = new AddAccountSpy()
-  const updateCurrentAccount = new UpdateCurrentAccountMock()
+  const setCurrentAccountMock = jest.fn()
   validationStub.errorMessage = params?.validationError
   const sut = render(
-    <Router history={history}>
-      <Signup
-        validation={validationStub}
-        addAccount={addAccountSpy}
-        updateCurrentAccount={updateCurrentAccount}
-      />
-    </Router>
+    <ApiContext.Provider value={{ setCurrentAccount: setCurrentAccountMock }}>
+      <Router history={history}>
+        <Signup
+          validation={validationStub}
+          addAccount={addAccountSpy}
+        />
+      </Router>
+    </ApiContext.Provider>
   )
   return {
     sut,
     addAccountSpy,
-    updateCurrentAccount
+    setCurrentAccountMock
   }
 }
 
@@ -168,21 +171,12 @@ describe('Signup Component', () => {
     Helper.testChildCount(sut, 'error-wrap', 1)
   })
 
-  test('Should call UpdateCurrentAccount on success', async () => {
-    const { sut, addAccountSpy, updateCurrentAccount } = makeSut()
+  test('Should call setCurrentAccount on success', async () => {
+    const { sut, addAccountSpy, setCurrentAccountMock } = makeSut()
     await simulateValidSubmit(sut)
-    expect(updateCurrentAccount.account).toBe(addAccountSpy.account)
+    expect(setCurrentAccountMock).toHaveBeenCalledWith(addAccountSpy.account)
     expect(history.length).toBe(1)
     expect(history.location.pathname).toBe('/')
-  })
-
-  test('Should present error if UpdateCurrentAccount fails', async () => {
-    const { sut, updateCurrentAccount } = makeSut()
-    const error = new EmailInUseError()
-    jest.spyOn(updateCurrentAccount, 'save').mockRejectedValueOnce(error)
-    await simulateValidSubmit(sut)
-    Helper.testElementText(sut, 'error-wrap', error.message)
-    Helper.testChildCount(sut, 'error-wrap', 1)
   })
 
   test('Should go to login up page', () => {
