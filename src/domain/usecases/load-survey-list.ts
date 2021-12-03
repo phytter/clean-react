@@ -6,7 +6,7 @@ export interface LoadSurveyList {
 export namespace LoadSurveyList {
   export type Model = {
     id: string
-    quentions: string
+    question: string
     date: Date
     didAnswer: Boolean
   }

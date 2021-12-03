@@ -24,7 +24,7 @@ const SurveyItem: React.FC<Props> = ({ survey }: Props) => {
             {survey.date.getFullYear()}
           </span>
         </time>
-        <p data-testid="question">{survey.quentions}</p>
+        <p data-testid="question">{survey.question}</p>
       </div>
       <footer>Ver Resultado</footer>
     </li>
