@@ -1,18 +1,17 @@
 import faker from 'faker'
-import { HttpGetClientSpy } from '@/data/test'
-import { RemoteSurveyList } from './remote-load-survey-list'
+import { HttpGetClientSpy, mockRemoteSurveyListModel } from '@/data/test'
+import { RemoteLoadSurveyList } from './remote-load-survey-list'
 import { HttpStatusCode } from '@/data/protocols/http'
 import { UnexpectedError } from '@/domain/errors'
-import { mockSurveyListModel } from '@/domain/test'
 
 type SutTypes = {
-  sut: RemoteSurveyList
-  httpGetClientSpy: HttpGetClientSpy<RemoteSurveyList.Model[]>
+  sut: RemoteLoadSurveyList
+  httpGetClientSpy: HttpGetClientSpy<RemoteLoadSurveyList.Model[]>
 }
 
 const makeSut = (url = faker.internet.url()): SutTypes => {
-  const httpGetClientSpy = new HttpGetClientSpy<RemoteSurveyList.Model[]>()
-  const sut = new RemoteSurveyList(url, httpGetClientSpy)
+  const httpGetClientSpy = new HttpGetClientSpy<RemoteLoadSurveyList.Model[]>()
+  const sut = new RemoteLoadSurveyList(url, httpGetClientSpy)
   return {
     sut,
     httpGetClientSpy
@@ -56,13 +55,28 @@ describe('RemoteLoadSurveyList', () => {
 
   test('Should return a list of SurveyModel if HttpGetlient returns 200', async () => {
     const { sut, httpGetClientSpy } = makeSut()
-    const httpResult = mockSurveyListModel()
+    const httpResult = mockRemoteSurveyListModel()
     httpGetClientSpy.response = {
       statusCode: HttpStatusCode.ok,
       body: httpResult
     }
     const surveyList = await sut.loadAll()
-    expect(surveyList).toEqual(httpResult)
+    expect(surveyList).toEqual([{
+      id: httpResult[0].id,
+      question: httpResult[0].question,
+      didAnswer: httpResult[0].didAnswer,
+      date: new Date(httpResult[0].date)
+    }, {
+      id: httpResult[1].id,
+      question: httpResult[1].question,
+      didAnswer: httpResult[1].didAnswer,
+      date: new Date(httpResult[1].date)
+    }, {
+      id: httpResult[2].id,
+      question: httpResult[2].question,
+      didAnswer: httpResult[2].didAnswer,
+      date: new Date(httpResult[2].date)
+    }])
   })
 
   test('Should return an empty list if HttpGetlient returns 204', async () => {

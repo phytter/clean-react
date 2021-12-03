@@ -3,7 +3,7 @@ import { LoadSurveyList } from '../usecases'
 
 export const mockSurveyModel = (): LoadSurveyList.Model => ({
   id: faker.random.uuid(),
-  quentions: faker.random.words(10),
+  question: faker.random.words(10),
   didAnswer: faker.random.boolean(),
   date: faker.date.recent()
 })
