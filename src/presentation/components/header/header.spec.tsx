@@ -1,9 +1,9 @@
+import React from 'react'
+import { Router } from 'react-router-dom'
 import { Header } from '@/presentation/components'
 import { ApiContext } from '@/presentation/contexts'
 import { render, fireEvent, screen } from '@testing-library/react'
-import { Router } from 'react-router-dom'
 import { createMemoryHistory, MemoryHistory } from 'history'
-import React from 'react'
 import { AccountModel } from '@/domain/models'
 import { mockAccountModel } from '@/domain/test'
 
